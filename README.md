@@ -226,11 +226,11 @@ The code in this repository fixes six issues identified before arXiv submission:
 If you use this code or build on this work, please cite:
 
 ```bibtex
-@article{khan2025bcgnn,
+@article{khan2026bcgnn,
   title   = {Bipartite Cholesky Graph Networks for Many-Body Quantum Chemistry},
   author  = {Khan, Abdul Samad},
   journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2025},
+  year    = {2026},
   url     = {https://arxiv.org/abs/XXXX.XXXXX}
 }
 ```
