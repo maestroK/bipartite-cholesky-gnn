@@ -1,0 +1,22 @@
+# Core scientific stack
+numpy>=1.24
+pandas>=1.5
+scipy>=1.10
+
+# Quantum chemistry backend
+pyscf>=2.3
+
+# Deep learning
+torch>=2.0
+
+# Machine learning utilities
+scikit-learn>=1.2
+
+# Visualisation
+matplotlib>=3.7
+
+# Notebook support (optional — needed only to regenerate cholesky_corrected.ipynb)
+nbformat>=5.7
+
+# Testing
+pytest>=7.3
