@@ -3,7 +3,7 @@
 **Abdul Samad Khan** · Lahore University of Management Sciences (LUMS)  
 `24120006@lums.edu.pk`
 
-> **Preprint:** [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX) *(update after submission)*
+> **Preprint:** [arXiv:2605.25268](https://arxiv.org/abs/2605.25268)
 
 ---
 
@@ -229,9 +229,9 @@ If you use this code or build on this work, please cite:
 @article{khan2026bcgnn,
   title   = {Bipartite Cholesky Graph Networks for Many-Body Quantum Chemistry},
   author  = {Khan, Abdul Samad},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  journal = {arXiv preprint arXiv:2605.25268},
   year    = {2026},
-  url     = {https://arxiv.org/abs/XXXX.XXXXX}
+  url     = {https://arxiv.org/abs/2605.25268}
 }
 ```
 
