@@ -97,37 +97,26 @@ class FactorizedBipartiteGNN(nn.Module):
         h_diag: torch.Tensor,
         B_chol: torch.Tensor,
     ) -> torch.Tensor:
-        """Forward pass.
-
-        Parameters
-        ----------
-        h_diag:
-            Orbital node features, shape ``(B, N, node_dim)``.
-        B_chol:
-            Cholesky vectors, shape ``(B, N_aux, N, N)``.
-
-        Returns
-        -------
-        Predicted correlation energy per sample, shape ``(B,)``.
-        """
         B_sz, N_aux, N, _ = B_chol.shape
         x_orb = self.node_embed(h_diag)                            # (B, N, H)
         x_aux = torch.zeros(B_sz, N_aux, x_orb.shape[-1],
                             device=x_orb.device)                   # (B, L, H)
 
         for layer in range(self.num_layers):
-            # Orbital → Auxiliary  (Eq. 5)
-            x_outer = torch.einsum("bph,bqh->bpqh", x_orb, x_orb)  # (B,N,N,H)
-            m_aux = torch.einsum("blpq,bpqh->blh", B_chol, x_outer) # (B,L,H)
+            # Orbital → Auxiliary (O(N) memory scaling per channel)
+            # Contract ket state first: \sum_q B^L_{pq} x_{qh}
+            ket_contract = torch.einsum("blpq,bqh->blph", B_chol, x_orb)
+            # Contract bra state: \sum_p ket_contract_{lph} x_{ph}
+            m_aux = torch.einsum("blph,bph->blh", ket_contract, x_orb)
+            
             x_aux = x_aux + self.W_orb_to_aux[layer](m_aux)
 
-            # Auxiliary → Orbital  (Eq. 7)
-            aux_bc = torch.einsum("blh,blpq->blpqh", x_aux, B_chol) # (B,L,N,N,H)
-            m_orb = torch.einsum("blpqh,bqh->bph", aux_bc, x_orb)   # (B,N,H)
+            # Auxiliary → Orbital
+            aux_bc = torch.einsum("blh,blpq->blpqh", x_aux, B_chol)
+            m_orb = torch.einsum("blpqh,bqh->bph", aux_bc, x_orb)
             x_orb = x_orb + self.W_aux_to_orb[layer](m_orb)
 
-        # Global readout: sum over orbital nodes
-        return self.energy_head(x_orb.sum(dim=1)).squeeze(-1)        # (B,)
+        return self.energy_head(x_orb.sum(dim=1)).squeeze(-1)
 
 
 class OrbitalOnlyGNN(nn.Module):
