@@ -206,21 +206,6 @@ The network predicts **correlation energy** ΔE_corr = E_FCI − E_HF rather tha
 
 ---
 
-## Corrections relative to original code
-
-The code in this repository fixes six issues identified before arXiv submission:
-
-| # | Bug | Fix |
-|---|-----|-----|
-| 1 | Figure 1 PES predictions were fabricated (`np.random.normal` noise) | Real out-of-fold CV predictions tracked via `oof_pred_corr[val_idx]` |
-| 2 | Dataset had 78 geometries; paper claimed 132 | 22 geometries/molecule × 6 molecules = 132 |
-| 3 | O₂ `compute_cholesky_integrals` called with `spin=0` (singlet) while FCI used triplet | `spin` parameter added and propagated consistently |
-| 4 | LOMO early stopping evaluated on the held-out test molecule | Val split carved from training molecules only |
-| 5 | Permutation invariance test used asymmetric B tensor | Symmetric B: `(B_raw + B_raw.T) / 2` |
-| 6 | Ablation monkey-patched `FactorizedBipartiteGNN.forward` | Dedicated `OrbitalOnlyGNN` class with clean separation |
-
----
-
 ## Citation
 
 If you use this code or build on this work, please cite:
