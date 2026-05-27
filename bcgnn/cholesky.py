@@ -4,14 +4,6 @@ bcgnn.cholesky
 Extracts one-body integrals (h_core) and density-fitted Cholesky vectors (B)
 from a PySCF molecule string.
 
-Fix history
------------
-* Added `spin` parameter so the SCF reference inside this function always
-  matches the reference used for FCI.  The original code defaulted to spin=0
-  (RHF singlet) even when FCI used an ROHF triplet reference, making the
-  Δ-ML target  E_FCI(triplet) − E_HF(singlet)  physically meaningless.
-"""
-
 from __future__ import annotations
 
 import numpy as np
